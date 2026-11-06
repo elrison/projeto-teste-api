@@ -1,0 +1,13 @@
+node_modules/
+level-3-cypress/node_modules/
+
+reports/**/*.html
+reports/**/*.json
+reports/**/*.xml
+
+level-3-cypress/cypress/videos/
+level-3-cypress/cypress/screenshots/
+level-3-cypress/cypress/downloads/
+
+.pytest_cache/
+__pycache__/

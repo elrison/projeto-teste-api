@@ -1,0 +1,19 @@
+{
+  "name": "step-qa-level-3-cypress",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "npm run test:api",
+    "test:api": "cypress run --reporter mochawesome --reporter-options reportDir=../reports/cypress,overwrite=false,html=false,json=true --spec \"cypress/e2e/**/*.cy.js\"",
+    "report:merge": "mochawesome-merge ../reports/cypress/mochawesome_*.json > ../reports/cypress/mochawesome.json",
+    "report:html": "marge ../reports/cypress/mochawesome.json --reportDir ../reports/cypress --reportFilename report --inline",
+    "report:consolidate": "npm run report:merge && npm run report:html",
+    "open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^14.5.2",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.4.1",
+    "mochawesome-report-generator": "^6.2.0"
+  }
+}

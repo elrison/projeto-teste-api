@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.14.0 on win32)" generated="2026-11-05T21:50:44.777110" rpa="false" schemaversion="5">
+<suite id="s1" name="Tc 03 Pets Vendidos" source="c:\Users\Elris\Downloads\projeto-testes-api\level-2-robot\tests\tc_03_pets_vendidos.robot">
+<test id="s1-t1" name="TC03 - Listar pets vendidos" line="5">
+<kw name="Executar TC03 Listar Pets Vendidos" owner="tc_03_pets_vendidos">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-11-05T21:50:45.398210" level="INFO">Creating Session using : alias=petstore, url=https://petstore.swagger.io/v2, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>petstore</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-11-05T21:50:45.397966" elapsed="0.004141"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2026-11-05T21:51:00.396257" level="INFO">GET Request : url=https://petstore.swagger.io/v2/pet/findByStatus?status=sold 
+ path_url=/v2/pet/findByStatus?status=sold 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2026-11-05T21:51:00.396901" level="INFO">GET Response : url=https://petstore.swagger.io/v2/pet/findByStatus?status=sold 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 06 Nov 2026 01:50:47 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body=[{"id":35472,"category":{"id":1,"name":"Dogs"},"name":"Pet with sold status","photoUrls":["https://example.com/photo1.jpg","https://example.com/photo2.jpg"],"tags":[{"id":1,"name":"friendly"},{"id":2,"name":"trained"}],"status":"sold"},{"id":72751,"category":{"id":1,"name":"Dogs"},"name":"Pet with sold status","photoUrls":["https://example.com/photo1.jpg","https://example.com/photo2.jpg"],"tags":[{"id":1,"name":"friendly"},{"id":2,"name":"trained"}],"status":"sold"},{"id":75574,"category":{"id":1,"name":"Dogs"},"name":"Pet with sold status","photoUrls":["https://example.com/photo1.jpg","https://example.com/photo2.jpg"],"tags":[{"id":1,"name":"friendly"},{"id":2,"name":"trained"}],"status":"sold"},{"id":1793928183,"category":{"id":1793928183,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928183,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928412,"category":{"id":1793928412,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928412,"name":"blank"}],"status":"sold"},{"id":1793928416,"category":{"id":1793928416,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928416,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928424,"category":{"id":1793928424,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928424,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928427,"category":{"id":1793928427,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928427,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":9,"category":{"id":0,"name":"cats"},"name":"King Kong","photoUrls":["string"],"tags":[{"id":0,"name":"ololo"}],"status":"sold"},{"id":1793928526,"category":{"id":1793928526,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928526,"name":"blank"}],"status":"sold"},{"id":1793928527,"category":{"id":1793928527,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928527,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928528,"category":{"id":1793928528,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928528,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928531,"category":{"id":1793928531,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928531,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928532,"category":{"id":1793928532,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928532,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928533,"category":{"id":1793928533,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928533,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793928534,"category":{"id":1793928534,"name":"dog"},"name":"hello kity with updated","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928534,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":12045,"category":{"id":0,"name":"string"},"name":"LEO_EDITADO","photoUrls":["string"],"tags":[{"id":0,"name":"string"}],"status":"sold"},{"id":1793928693168,"name":"firu-probe","photoUrls":[],"tags":[],"status":"sold"},{"id":1793928706222,"name":"firu-probe","photoUrls":[],"tags":[],"status":"sold"},{"id":1793928707,"category":{"id":1793928707,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928707,"name":"blank"}],"status":"sold"},{"id":279248334,"category":{"id":-29245128,"name":"incididunt"},"name":"executing_from_test","photoUrls":["dolore Excepteur est","consequat in labore"],"tags":[{"id":-55902183,"name":"Lorem laboris nulla"},{"id":67424482,"name":"incididunt ipsum eiusmod"}],"status":"sold"},{"id":1793928842,"category":{"id":1793928842,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928842,"name":"blank"}],"status":"sold"},{"id":1793928999,"category":{"id":1793928999,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793928999,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929001,"category":{"id":1793929001,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929001,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929004,"category":{"id":1793929004,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929004,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929005,"category":{"id":1793929005,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929005,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929006,"category":{"id":1793929006,"name":"dog"},"name":"hello kity with updated","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929006,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929149,"category":{"id":1793929149,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929149,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929359,"category":{"id":1793929359,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929359,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929360,"category":{"id":1793929360,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929360,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929364,"category":{"id":1793929364,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929364,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929365,"category":{"id":1793929365,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929365,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929366,"category":{"id":1793929366,"name":"dog"},"name":"hello kity with updated","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929366,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929537,"category":{"id":1793929537,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929537,"name":"blank"}],"status":"sold"},{"id":1793929541,"category":{"id":1793929541,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929541,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929549,"category":{"id":1793929549,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929549,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929552,"category":{"id":1793929552,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929552,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929728,"category":{"id":1793929728,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929728,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1793929730,"category":{"id":1793929730,"name":"dog"},"name":"hello kity","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"tags":[{"id":1793929730,"name":"swagger-codegen-python-pet-tag"}],"status":"sold"},{"id":1009740,"category":{"id":1,"name":"Dogs"},"name":"UpdatedDog-1009740","photoUrls":["https://example.com/photo1.jpg"],"tags":[{"id":1,"name":"test-tag"}],"status":"sold"},{"id":542040,"category":{"id":1,"name":"Dogs"},"name":"UpdatedDog-542040","photoUrls":["https://example.com/photo1.jpg"],"tags":[{"id":1,"name":"test-tag"}],"status":"sold"}] 
+ </msg>
+<msg time="2026-11-05T21:51:00.397490" level="INFO">c:\Users\Elris\AppData\Local\Programs\Python\Python314\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'petstore.swagger.io'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2026-11-05T21:51:00.398154" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>petstore</arg>
+<arg>/pet/findByStatus</arg>
+<arg>params=status=sold</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-11-05T21:50:45.402473" elapsed="14.995911"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-11-05T21:51:00.398634" elapsed="0.000184"/>
+</return>
+<msg time="2026-11-05T21:51:00.399153" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<status status="PASS" start="2026-11-05T21:50:45.388833" elapsed="15.011536"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-11-05T21:51:00.403236" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-11-05T21:51:00.402153" elapsed="0.001292"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>isinstance($response.json(), list)</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-11-05T21:51:00.403821" elapsed="0.001051"/>
+</kw>
+<status status="PASS" start="2026-11-05T21:50:45.388060" elapsed="15.017256"/>
+</test>
+<status status="PASS" start="2026-11-05T21:50:44.783278" elapsed="15.623365"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Tc 03 Pets Vendidos" id="s1" pass="1" fail="0" skip="0">Tc 03 Pets Vendidos</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

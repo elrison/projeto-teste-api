@@ -1,0 +1,74 @@
+name: Framework "Step-Up" - Pipeline Unificado de QA
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  testes-automatizados:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Baixa o código do seu repositório para o servidor de CI/CD
+    - name: Checkout do Código
+      uses: actions/checkout@v4
+
+    # 2. Configura o ambiente Node.js (necessário para Newman e Cypress)
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    # 3. Configura o ambiente Python (necessário para o Robot Framework)
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # 4. Instala as dependencias das 3 ferramentas
+    - name: Instalar Dependencias (Newman, Robot e Cypress)
+      run: |
+        npm install -g newman newman-reporter-htmlextra
+        pip install -r level-2-robot/requirements.txt
+        cd level-3-cypress
+        npm ci
+
+    # 5. Execucao 1: Postman (via Newman)
+    - name: Executar Testes - Postman / Newman
+      run: |
+        newman run level-1-postman/collections/api-tests.postman_collection.json -e level-1-postman/environments/dev.postman_environment.json -r htmlextra --reporter-htmlextra-export reports/postman/report.html
+      continue-on-error: true
+
+    # 6. Execucao 2: Robot Framework
+    - name: Executar Testes - Robot Framework
+      run: |
+        robot -d reports/robot level-2-robot/tests/
+      continue-on-error: true
+
+    # 7. Execucao 3: Cypress
+    - name: Executar Testes - Cypress (API)
+      run: |
+        mkdir -p reports/cypress
+        cd level-3-cypress
+        npm run test:api
+      continue-on-error: true
+
+    # 7.1 Gera relatorio consolidado do Cypress (sempre)
+    - name: Consolidar Relatorio Cypress (Mochawesome)
+      if: always()
+      run: |
+        cd level-3-cypress
+        npm run report:consolidate
+      continue-on-error: true
+
+    # 8. Publica os relatorios no GitHub como um artefato para download
+    - name: Salvar Relatorios de Execucao
+      uses: actions/upload-artifact@v4
+      with:
+        name: relatorios-de-testes
+        path: |
+          reports/
+          level-3-cypress/cypress/videos/
+          level-3-cypress/cypress/screenshots/
