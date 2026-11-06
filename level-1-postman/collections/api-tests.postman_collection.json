@@ -34,6 +34,53 @@
       ]
     },
     {
+      "name": "Criar pet de teste",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": {{petId}},\n  \"name\": \"pet-teste-newman\",\n  \"photoUrls\": [\"https://example.com/pet.jpg\"],\n  \"status\": \"available\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pet",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet"]
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"petId\", Date.now().toString());"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.response.to.have.status(200);",
+              "pm.environment.set(\"petId\", pm.response.json().id.toString());"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
       "name": "Consultar pet por ID",
       "request": {
         "method": "GET",
