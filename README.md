@@ -84,6 +84,16 @@ step-qa-framework/
 
 Os casos de API podem ser executados manualmente no Postman pela colecao `level-1-postman/collections/api-tests.postman_collection.json` ou automaticamente com Newman.
 
+### Cobertura Postman e Newman
+
+A colecao Petstore cobre listagem e consulta por GET, criacao por POST, atualizacao por PUT e por POST com formulario, e exclusao por DELETE. Consultas posteriores conferem as alteracoes e a exclusao, alem do cenario de consulta a um ID inexistente.
+
+Selecione o ambiente `level-1-postman/environments/dev.postman_environment.json` e execute a colecao na ordem definida: a criacao gera um ID e o salva em `petId` para os passos seguintes; a consulta apos a exclusao limpa a variavel. Os testes usam uma API publica compartilhada; se a execucao for interrompida, exclua o pet de teste criado antes de iniciar novamente. Os passos detalhados estao em `level-1-postman/manual-test-cases.md`.
+
+```bash
+newman run level-1-postman/collections/api-tests.postman_collection.json -e level-1-postman/environments/dev.postman_environment.json
+```
+
 ### Cobertura Robot Framework
 
 A suite automatizada do Robot possui 10 casos de API contra o Petstore. Cada TC esta separado em dois arquivos: o `.resource` contem a chamada HTTP individual e o `.robot` contem as validacoes do caso.

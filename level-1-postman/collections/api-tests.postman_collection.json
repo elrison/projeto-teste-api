@@ -3,6 +3,26 @@
     "name": "Petstore - Testes de API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "event": [{
+    "listen": "prerequest",
+    "script": {
+      "exec": [
+        "const requestsComPet = ['Consultar pet por ID', 'Atualizar pet por PUT', 'Consultar pet apos PUT', 'Atualizar pet por POST', 'Consultar pet apos POST', 'Excluir pet de teste', 'Consultar pet excluido'];",
+        "if (requestsComPet.includes(pm.info.requestName)) {",
+        "    const petId = pm.environment.get('petId');",
+        "    if (!petId || !/^[1-9][0-9]*$/.test(petId)) {",
+        "        pm.test('Pet de teste criado antes desta requisicao', function () {",
+        "            pm.expect.fail('Execute Criar pet de teste com o ambiente selecionado antes desta requisicao.');",
+        "        });",
+        "        pm.execution.skipRequest();",
+        "    } else {",
+        "        pm.variables.set('petId', petId);",
+        "    }",
+        "}"
+      ],
+      "type": "text/javascript"
+    }
+  }],
   "item": [
     {
       "name": "Listar pets disponiveis",
@@ -45,7 +65,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"id\": {{petId}},\n  \"name\": \"pet-teste-newman\",\n  \"photoUrls\": [\"https://example.com/pet.jpg\"],\n  \"status\": \"available\"\n}",
+          "raw": "{\n  \"id\": {{newPetId}},\n  \"name\": \"pet-teste-newman\",\n  \"photoUrls\": [\"https://example.com/pet.jpg\"],\n  \"status\": \"available\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -63,7 +83,8 @@
           "listen": "prerequest",
           "script": {
             "exec": [
-              "pm.environment.set(\"petId\", Date.now().toString());"
+              "pm.environment.unset(\"petId\");",
+              "pm.variables.set(\"newPetId\", (Date.now() * 1000 + Math.floor(Math.random() * 1000)).toString());"
             ],
             "type": "text/javascript"
           }
@@ -72,8 +93,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.response.to.have.status(200);",
-              "pm.environment.set(\"petId\", pm.response.json().id.toString());"
+              "pm.test(\"Pet criado com os dados enviados\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    const pet = pm.response.json();",
+              "    pm.expect(pet.id).to.eql(Number(pm.variables.get('newPetId')));",
+              "    pm.expect(pet.name).to.eql('pet-teste-newman');",
+              "    pm.expect(pet.status).to.eql('available');",
+              "    pm.environment.set('petId', pet.id.toString());",
+              "});"
             ],
             "type": "text/javascript"
           }
@@ -101,7 +128,171 @@
             "pm.test(\"Pet retornado possui ID e nome\", function () {",
             "    const pet = pm.response.json();",
             "    pm.expect(pet.id).to.eql(Number(pm.environment.get('petId')));",
-            "    pm.expect(pet.name).to.be.a('string').and.not.empty;",
+            "    pm.expect(pet.name).to.eql('pet-teste-newman');",
+            "    pm.expect(pet.status).to.eql('available');",
+            "});"
+          ],
+          "type": "text/javascript"
+        }
+      }]
+    },
+    {
+      "name": "Atualizar pet por PUT",
+      "request": {
+        "method": "PUT",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": {{petId}},\n  \"name\": \"pet-atualizado-put\",\n  \"photoUrls\": [\"https://example.com/pet.jpg\"],\n  \"status\": \"pending\"\n}",
+          "options": {"raw": {"language": "json"}}
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pet",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet"]
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test(\"PUT atualiza os dados do pet\", function () {",
+            "    pm.response.to.have.status(200);",
+            "    const pet = pm.response.json();",
+            "    pm.expect(pet.id).to.eql(Number(pm.environment.get('petId')));",
+            "    pm.expect(pet.name).to.eql('pet-atualizado-put');",
+            "    pm.expect(pet.status).to.eql('pending');",
+            "});"
+          ],
+          "type": "text/javascript"
+        }
+      }]
+    },
+    {
+      "name": "Consultar pet apos PUT",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pet/{{petId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet", "{{petId}}"]
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test(\"GET confirma os dados atualizados por PUT\", function () {",
+            "    pm.response.to.have.status(200);",
+            "    const pet = pm.response.json();",
+            "    pm.expect(pet.id).to.eql(Number(pm.environment.get('petId')));",
+            "    pm.expect(pet.name).to.eql('pet-atualizado-put');",
+            "    pm.expect(pet.status).to.eql('pending');",
+            "});"
+          ],
+          "type": "text/javascript"
+        }
+      }]
+    },
+    {
+      "name": "Atualizar pet por POST",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {"key": "name", "value": "pet-atualizado-post", "type": "text"},
+            {"key": "status", "value": "sold", "type": "text"}
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pet/{{petId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet", "{{petId}}"]
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test(\"POST atualiza o pet\", function () {",
+            "    pm.response.to.have.status(200);",
+            "});"
+          ],
+          "type": "text/javascript"
+        }
+      }]
+    },
+    {
+      "name": "Consultar pet apos POST",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pet/{{petId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet", "{{petId}}"]
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test(\"GET confirma os dados atualizados por POST\", function () {",
+            "    pm.response.to.have.status(200);",
+            "    const pet = pm.response.json();",
+            "    pm.expect(pet.id).to.eql(Number(pm.environment.get('petId')));",
+            "    pm.expect(pet.name).to.eql('pet-atualizado-post');",
+            "    pm.expect(pet.status).to.eql('sold');",
+            "});"
+          ],
+          "type": "text/javascript"
+        }
+      }]
+    },
+    {
+      "name": "Excluir pet de teste",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pet/{{petId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet", "{{petId}}"]
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test(\"DELETE exclui o pet\", function () {",
+            "    pm.response.to.have.status(200);",
+            "});"
+          ],
+          "type": "text/javascript"
+        }
+      }]
+    },
+    {
+      "name": "Consultar pet excluido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pet/{{petId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet", "{{petId}}"]
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test(\"Pet excluido nao e encontrado\", function () {",
+            "    pm.response.to.have.status(404);",
+            "    pm.environment.unset('petId');",
             "});"
           ],
           "type": "text/javascript"
